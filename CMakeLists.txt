@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(TENSORRT_ROOT "/opt/tensorrt-rtx") 
--
 if(NOT EXISTS "${TENSORRT_ROOT}/include")
     message(FATAL_ERROR "TensorRT include directory not found: ${TENSORRT_ROOT}/include")
 endif()
@@ -24,13 +23,12 @@ include_directories(include
     ${TENSORRT_INCLUDE_DIRS}
 )
 
-add_executable(engine_builder src/engine_builder.cpp)
+add_executable(engine_builder
+     src/engine_builder.cpp
+     src/logger.cpp)
 
 target_link_directories(engine_builder PRIVATE
     ${TENSORRT_LIBRARY_DIRS}
-    # ${CUDA_TOOLKIT_ROOT_DIR}/lib64
-    # ${CUDNN_LIBRARY_PATH}
-   
 )
 
 target_link_libraries(engine_builder

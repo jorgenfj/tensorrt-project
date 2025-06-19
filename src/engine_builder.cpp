@@ -1,20 +1,11 @@
 #include "NvInfer.h"
 #include "NvOnnxParser.h"
+#include "logger.hpp"
 #include <iostream>
 #include <fstream>
 
 using namespace nvinfer1;
 using namespace nvonnxparser;
-
-class Logger : public ILogger
-{
-    void log(Severity severity, const char* msg) noexcept override
-    {
-        // suppress info-level messages
-        if (severity <= Severity::kWARNING)
-            std::cout << msg << std::endl;
-    }
-} logger;
 
 int main(int argc, char* argv[]) {
 
@@ -33,7 +24,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    uint32_t flags = 1U << static_cast<uint32_t>(NetworkDefinitionCreationFlag::kEXPLICIT_BATCH);
+    // uint32_t flags = 1U << static_cast<uint32_t>(NetworkDefinitionCreationFlag::kEXPLICIT_BATCH);
+    uint32_t flags = 0U;
     INetworkDefinition* network = builder->createNetworkV2(flags);
     if (!network) {
         std::cerr << "ERROR: Failed to create TensorRT network!" << std::endl;
